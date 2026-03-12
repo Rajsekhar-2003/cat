@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Shared Item - OmeBox File Sharing
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .copy-feedback {
+        transition: opacity 0.3s ease;
+        margin-left: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .copy-success {
+        color: #10b981;
+    }
+    
+    .copy-error {
+        color: #ef4444;
+    }
+    
+    .btn-copy {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-copy i {
+        font-size: 1.1rem;
+    }
+    
+    .btn-copy.copied {
+        background: #10b981;
+        border-color: #10b981;
+        color: white;
+    }
+    
+    .btn-copy.error {
+        background: #ef4444;
+        border-color: #ef4444;
+        color: white;
+    }
+    
+    .file-info {
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    
+    .file-icon {
+        font-size: 2rem;
+        margin-right: 1rem;
+        color: #2563EB;
+    }
+    
+    .pre-text {
+        white-space: pre-wrap; 
+        word-wrap: break-word; 
+        max-height: 400px; 
+        overflow-y: auto;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Shared Item</li>
+            </ol>
+        </nav>
+
+        <h2 class="mb-4">
+            <i class="bi bi-share-fill" style="color: #2563EB; margin-right: 10px;"></i>
+            Shared Item
+        </h2>
+
+        {% if item.kind == "text" %}
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="fw-bold mb-0">
+                        <i class="bi bi-file-text-fill" style="color: #2563EB; margin-right: 8px;"></i>
+                        Shared Text
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <pre id="sharedText"
+                         class="p-3 bg-light border rounded pre-text"
+                         aria-label="Shared text content">{{ item.content | e }}</pre>
+
+                    <div class="d-flex align-items-center mt-3">
+                        <button class="btn btn-primary btn-copy" 
+                                onclick="copySharedText(this)"
+                                aria-label="Copy shared text">
+                            <i class="bi bi-clipboard"></i>
+                            <span>Copy Text</span>
+                        </button>
+                        <span id="copyFeedback" class="copy-feedback"></span>
+                    </div>
+                    
+                    <div class="mt-3 small text-muted">
+                        <i class="bi bi-info-circle"></i>
+                        Text will auto-delete after expiry. Copy now to save.
+                        {% if item.expires_at %}
+                        <br><i class="bi bi-clock"></i> Expires: {{ item.expires_at | datetimeformat }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        {% elif item.kind == "file" %}
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="fw-bold mb-0">
+                        <i class="bi bi-file-earmark-fill" style="color: #2563EB; margin-right: 8px;"></i>
+                        Shared File
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="file-info d-flex align-items-center">
+                        {% if item.original_name.endswith(('.jpg', '.jpeg', '.png', '.gif', '.webp')) %}
+                            <i class="bi bi-file-image file-icon"></i>
+                        {% elif item.original_name.endswith(('.pdf')) %}
+                            <i class="bi bi-file-pdf file-icon"></i>
+                        {% elif item.original_name.endswith(('.doc', '.docx')) %}
+                            <i class="bi bi-file-word file-icon"></i>
+                        {% elif item.original_name.endswith(('.xls', '.xlsx')) %}
+                            <i class="bi bi-file-excel file-icon"></i>
+                        {% elif item.original_name.endswith(('.zip', '.rar', '.7z')) %}
+                            <i class="bi bi-file-zip file-icon"></i>
+                        {% elif item.original_name.endswith(('.mp3', '.wav')) %}
+                            <i class="bi bi-file-music file-icon"></i>
+                        {% elif item.original_name.endswith(('.mp4', '.avi', '.mov')) %}
+                            <i class="bi bi-file-play file-icon"></i>
+                        {% else %}
+                            <i class="bi bi-file-earmark file-icon"></i>
+                        {% endif %}
+                        
+                        <div>
+                            <p class="mb-1"><strong>Filename:</strong> {{ item.original_name }}</p>
+                            {% if item.expires_at %}
+                            <p class="mb-0 small text-muted">
+                                <i class="bi bi-clock"></i> 
+                                Expires: {{ item.expires_at | datetimeformat }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <a class="btn btn-success" 
+                           href="{{ url_for('download_file', item_id=item.id) }}"
+                           aria-label="Download shared file"
+                           onclick="showDownloadFeedback(this)">
+                            <i class="bi bi-download"></i> Download File
+                        </a>
+                    </div>
+                    
+                    <div id="downloadFeedback" class="mt-2 small"></div>
+                </div>
+            </div>
+        {% endif %}
+        
+        <!-- Back to home button -->
+        <div class="text-center mt-4">
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
+                <i class="bi bi-house-door"></i> Back to Home
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- Hidden SEO text -->
+<p class="visually-hidden">
+Share text from one PC to another, share files between computers, share mobile to PC, and share files from Android to iPhone. Upload and share files online without login using a secure access code. OmeBox provides secure temporary file sharing with auto-expiry.
+</p>
+
+<script>
+// Copy text with visual feedback
+function copySharedText(button) {
+    const el = document.getElementById("sharedText");
+    const feedbackEl = document.getElementById("copyFeedback");
+    
+    if (!el) return;
+
+    const text = el.innerText || el.textContent;
+    
+    // Show loading state
+    button.disabled = true;
+    button.innerHTML = '<i class="bi bi-hourglass-split"></i> Copying...';
+    
+    const showFeedback = (success, message) => {
+        if (feedbackEl) {
+            feedbackEl.textContent = message;
+            feedbackEl.className = success ? 'copy-feedback copy-success' : 'copy-feedback copy-error';
+            
+            // Auto hide after 3 seconds
+            setTimeout(() => {
+                feedbackEl.textContent = '';
+                feedbackEl.className = 'copy-feedback';
+            }, 3000);
+        }
+        
+        // Reset button
+        setTimeout(() => {
+            button.disabled = false;
+            button.innerHTML = '<i class="bi bi-clipboard"></i> <span>Copy Text</span>';
+            
+            if (success) {
+                button.classList.add('copied');
+                setTimeout(() => button.classList.remove('copied'), 500);
+            } else {
+                button.classList.add('error');
+                setTimeout(() => button.classList.remove('error'), 500);
+            }
+        }, 500);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                showFeedback(true, '✅ Copied successfully!');
+            })
+            .catch(() => {
+                fallbackCopy(text, showFeedback);
+            });
+    } else {
+        fallbackCopy(text, showFeedback);
+    }
+}
+
+function fallbackCopy(text, callback) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    try {
+        const successful = document.execCommand("copy");
+        if (successful) {
+            callback(true, '✅ Copied successfully!');
+        } else {
+            callback(false, '❌ Copy failed. Please select manually.');
+        }
+    } catch (e) {
+        callback(false, '❌ Copy failed. Please select and copy manually.');
+    }
+
+    document.body.removeChild(textarea);
+}
+
+// Download feedback
+function showDownloadFeedback(button) {
+    const feedbackEl = document.getElementById('downloadFeedback');
+    if (feedbackEl) {
+        feedbackEl.innerHTML = '<span class="text-success"><i class="bi bi-check-circle"></i> Download started...</span>';
+        setTimeout(() => feedbackEl.innerHTML = '', 3000);
+    }
+}
+
+// Auto-copy for text (optional)
+document.addEventListener('DOMContentLoaded', function() {
+    // You can add auto-copy functionality here if needed
+    console.log('View item page loaded');
+});
+</script>
+
+{% endblock %}

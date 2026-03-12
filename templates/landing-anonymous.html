@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+
+{% block title %}
+Anonymous File Sharing Without Login | OmeBox
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+
+<meta name="description"
+content="Anonymous file sharing without login. Send files instantly between PC, Android, iPhone, and Mac using secure temporary links with automatic expiry.">
+
+<link rel="canonical" href="{{ request.base_url }}">
+
+<meta property="og:title" content="Anonymous File Sharing Without Login | OmeBox">
+<meta property="og:description" content="Send files instantly without creating an account. Works on PC, Mac, Android and iPhone.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.base_url }}">
+<meta property="og:image" content="{{ url_for('static', filename='og-share.jpg', _external=True) }}">
+
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="robots" content="index, follow">
+
+<style>
+
+:root{
+--primary:#2563EB;
+--primary-dark:#1D4ED8;
+--radius:14px;
+--bg:#f8fafc;
+--text:#1e293b;
+--text-light:#64748b;
+--border:#e2e8f0;
+}
+
+.hero{
+padding:3rem 1rem;
+text-align:center;
+background:var(--bg);
+border-radius:var(--radius);
+margin-bottom:2rem;
+}
+
+.hero h1{
+font-weight:800;
+font-size:clamp(2rem,4vw,2.6rem);
+margin-bottom:1rem;
+}
+
+.hero p{
+max-width:700px;
+margin:auto;
+color:var(--text-light);
+}
+
+.section{
+margin-top:3rem;
+}
+
+.section h2{
+font-size:1.8rem;
+font-weight:700;
+margin-bottom:1.5rem;
+}
+
+.card-box{
+background:white;
+border-radius:var(--radius);
+padding:1.6rem;
+border:1px solid var(--border);
+height:100%;
+}
+
+.feature-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:1.2rem;
+}
+
+.cta{
+text-align:center;
+margin:3rem 0;
+}
+
+.cta a{
+background:var(--primary);
+color:white;
+padding:.8rem 2rem;
+border-radius:10px;
+font-weight:600;
+text-decoration:none;
+display:inline-block;
+}
+
+.cta a:hover{
+background:var(--primary-dark);
+}
+
+@media(max-width:768px){
+.hero{
+padding:2rem 1rem;
+}
+.section h2{
+font-size:1.5rem;
+}
+}
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<main>
+
+<section class="hero">
+
+<h1>Anonymous File Sharing Without Login</h1>
+
+<p>
+Share files instantly without creating an account. OmeBox allows secure file transfer between PC, Mac, Android, and iPhone using temporary links.
+</p>
+
+<div class="cta">
+<a href="{{ url_for('share') }}" aria-label="Start sharing files without login">
+Start Sharing Now
+</a>
+</div>
+
+</section>
+
+
+
+<section class="section container">
+
+<h2>Why Use Anonymous File Sharing?</h2>
+
+<div class="feature-grid">
+
+<div class="card-box">
+<h3>No Account Required</h3>
+<p>Upload and share files instantly without registration.</p>
+</div>
+
+<div class="card-box">
+<h3>Temporary Secure Links</h3>
+<p>Shared files automatically expire after your selected time.</p>
+</div>
+
+<div class="card-box">
+<h3>Cross-Device Transfer</h3>
+<p>Send files between PC, Mac, Android, iPhone, and tablets.</p>
+</div>
+
+<div class="card-box">
+<h3>Fast File Sharing</h3>
+<p>Transfer documents, images, code, and archives quickly.</p>
+</div>
+
+</div>
+
+</section>
+
+
+
+<section class="section container">
+
+<h2>How Anonymous File Sharing Works</h2>
+
+<ol>
+<li>Upload a file or paste text.</li>
+<li>Select an expiry time.</li>
+<li>Generate a secure link.</li>
+<li>Share the link for instant download.</li>
+</ol>
+
+</section>
+
+
+
+<section class="section container">
+
+<h2>Supported Devices</h2>
+
+<ul>
+<li>Windows PC</li>
+<li>MacOS</li>
+<li>Android Phones</li>
+<li>iPhone & iPad</li>
+<li>Linux</li>
+</ul>
+
+</section>
+
+
+
+<section class="section container">
+
+<h2>Frequently Asked Questions</h2>
+
+<div itemscope itemtype="https://schema.org/FAQPage">
+
+<div itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
+<h3 itemprop="name">Is OmeBox anonymous?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+<p itemprop="text">
+Yes. OmeBox allows file sharing without creating an account.
+</p>
+</div>
+</div>
+
+<div itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
+<h3 itemprop="name">Can I send files between phone and PC?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+<p itemprop="text">
+Yes. You can transfer files instantly between mobile devices and computers.
+</p>
+</div>
+</div>
+
+<div itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
+<h3 itemprop="name">Do shared files expire?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+<p itemprop="text">
+Yes. Files automatically delete after the selected expiry time.
+</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+
+<section class="cta container">
+
+<h2>Start Anonymous File Sharing</h2>
+
+<p>Upload your file and generate a secure link instantly.</p>
+
+<a href="{{ url_for('share') }}" aria-label="Create a secure share link">
+Create Share Link
+</a>
+
+</section>
+
+</main>
+
+
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "OmeBox",
+ "url": "{{ url_for('index', _external=True) }}"
+}
+</script>
+
+
+
+<div class="text-center mt-4 container">
+<small class="text-muted">
+👥 <span id="visitorCount">Loading...</span> total visits
+</small>
+</div>
+
+
+
+<script>
+(async function(){
+
+const el=document.getElementById("visitorCount");
+
+if(!el)return;
+
+try{
+
+const r=await fetch("https://api.countapi.xyz/hit/omebox.com/visits");
+const d=await r.json();
+
+el.textContent=d.value.toLocaleString();
+
+}catch(e){
+
+el.textContent="1,000+";
+
+}
+
+})();
+</script>
+
+{% endblock %}

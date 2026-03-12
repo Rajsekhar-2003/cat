@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>OmeBox - Free Group Chat No Login | Auto Delete Messages | Live Chat for Office & Fun</title>
+    <meta name="description" content="OmeBox is a simple and fun online group chat platform. No login required, no data storage, messages auto delete on refresh. Perfect for computer labs, office staff communication, and casual chatting with friends.">
+    <meta name="keywords" content="OmeBox, group chat online, no login chat, auto delete messages, computer lab chat, office staff communication, fun chat, anonymous chat, live group chat, instant messaging">
+    <meta name="author" content="OmeBox">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://omebox.com/chat">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="OmeBox - Free Group Chat No Login, Auto Delete Messages">
+    <meta property="og:description" content="Simple and fun online group chat. No login, no data storage. Perfect for computer labs, office staff, and casual fun with friends.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://omebox.com/chat">
+    <meta property="og:site_name" content="OmeBox Chat">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="OmeBox - Free Group Chat No Login">
+    <meta name="twitter:description" content="Chat instantly without login. Auto delete messages. Perfect for computer labs and office communication.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='image.png') }}">
+    
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        
+        body {
+            background: linear-gradient(145deg, #f0f4fa 0%, #e6ecf5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+        }
+        
+        main {
+            flex: 1;
+            padding: 1.5rem;
+        }
+        
+        /* Header/Navbar styles */
+        .navbar-brand span {
+            font-weight:800; 
+            font-family:Inter, sans-serif; 
+            letter-spacing:0.5px;
+        }
+        
+        /* Why OmeBox Section */
+        .why-omebox {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .why-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a2e3f;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .why-title i {
+            color: #2563EB;
+            font-size: 2rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .feature-card {
+            background: #f8faff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: transform 0.2s;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            color: #2563EB;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a2e3f;
+            margin-bottom: 0.8rem;
+        }
+        
+        .feature-card p {
+            color: #4a5a6e;
+            line-height: 1.6;
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+        
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .info-badge {
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563EB;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+        
+        .info-badge i {
+            font-size: 1rem;
+        }
+        
+        /* Chat card */
+        .chat-card {
+            background: rgba(235, 230, 230, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px -10px rgba(0, 20, 30, 0.15);
+            padding: 2rem 1.5rem 1.8rem;
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chat-header h3 {
+            font-weight: 700;
+            color: #1a2e3f;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+        
+        .chat-header h3 i {
+            font-size: 2rem;
+            color: #2563EB;
+        }
+        
+        .live-badge {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .live-badge i {
+            font-size: 0.8rem;
+            color: #22c55e;
+        }
+        
+        #chat {
+            height: 380px;
+            overflow-y: auto;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            padding: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+            scroll-behavior: smooth;
+        }
+        
+        .msg {
+            margin: 0.75rem 0;
+            padding: 0.7rem 1.2rem;
+            background: #ffffff;
+            border-radius: 28px 28px 28px 8px;
+            width: fit-content;
+            max-width: 85%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.95rem;
+            animation: gentle-appear 0.2s ease;
+        }
+        
+        @keyframes gentle-appear {
+            0% { opacity: 0; transform: translateY(6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .msg.me {
+            background: #dbeafe;
+            margin-left: auto;
+            border-radius: 28px 28px 8px 28px;
+            border-color: #bfdbfe;
+        }
+        
+        .msg b { font-weight: 600; color: #1f3a4b; }
+        .msg.me b { color: #1e40af; }
+        
+        .msg .react-badge {
+            margin-left: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.7);
+            border-radius: 40px;
+            padding: 2px 8px 2px 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid rgba(0,0,0,0.04);
+            transition: 0.1s;
+        }
+        
+        .msg .react-badge:hover { background: white; transform: scale(1.05); }
+        
+        #typing {
+            font-size: 0.9rem;
+            min-height: 28px;
+            padding-left: 1rem;
+            font-style: italic;
+            color: #58748c;
+            background: rgba(255,255,255,0.3);
+            border-radius: 40px;
+            margin-top: 6px;
+        }
+        
+        .input-group {
+            background: white;
+            border-radius: 60px;
+            padding: 0.3rem;
+            box-shadow: 0 8px 18px -6px rgba(0,40,60,0.12);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        
+        .input-group:focus-within { box-shadow: 0 8px 22px -4px rgba(37,99,235,0.2); }
+        
+        #msg {
+            border: none;
+            background: transparent;
+            padding-left: 1.2rem;
+            font-size: 1rem;
+            border-radius: 60px !important;
+            outline: none;
+            box-shadow: none !important;
+        }
+        
+        .emoji-panel {
+            display: flex;
+            gap: 6px;
+            padding: 4px 0 0 6px;
+            flex-wrap: wrap;
+        }
+        
+        .emoji-btn {
+            background: #f0f4fa;
+            border: none;
+            border-radius: 40px !important;
+            width: 42px;
+            height: 42px;
+            font-size: 1.3rem;
+            transition: 0.15s;
+            color: #2f4858;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .emoji-btn:hover { background: #e3eaf2; transform: scale(0.98); }
+        
+        .btn-primary-custom {
+            background: #1e2f40;
+            border: none;
+            border-radius: 60px !important;
+            padding: 0.6rem 1.6rem;
+            font-weight: 500;
+            color: white;
+            transition: 0.15s;
+        }
+        
+        .btn-primary-custom:hover { background: #2563EB; transform: scale(0.98); }
+        
+        .online-section {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 1.5rem 1.2rem;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 12px 24px -16px rgba(0,30,40,0.2);
+        }
+        
+        .online-section h5 {
+            font-weight: 600;
+            color: #1f3a4b;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #users {
+            max-height: 270px;
+            overflow-y: auto;
+            border-radius: 24px;
+            background: rgba(255,255,255,0.2);
+            padding: 0.2rem;
+        }
+        
+        .list-group-item {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 40px !important;
+            margin: 8px 0;
+            padding: 0.7rem 1.2rem;
+            font-weight: 500;
+            color: #13212e;
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .list-group-item::before {
+            content: "●";
+            color: #22c55e;
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+        
+        .join-panel {
+            background: rgba(255,255,255,0.6);
+            border-radius: 48px;
+            padding: 1.2rem 1.5rem;
+            backdrop-filter: blur(6px);
+            margin-top: 1.8rem;
+            border: 1px solid rgba(255,255,255,0.7);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        
+        .join-panel .form-control {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 40px;
+            padding: 0.7rem 1.2rem;
+            flex: 1 1 180px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-join {
+            background: #1d3b4c;
+            color: white;
+            border-radius: 60px;
+            padding: 0.7rem 2rem;
+            border: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.15s;
+        }
+        
+        .btn-join:hover { background: #2563EB; }
+        
+        /* Privacy Note */
+        .privacy-note {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+            color: #4a5a6e;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+        
+        .privacy-note i {
+            color: #2563EB;
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 767px) {
+            .navbar-collapse {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                z-index: 1090;
+                max-height: calc(100vh - 60px);
+                overflow-y: auto;
+                display: none !important;
+            }
+            
+            .navbar-collapse.show {
+                display: block !important;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .why-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Mobile bottom navigation */
+        .mobile-bottom-nav {
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            height: 70px;
+            background: rgba(255,255,255,0.98) !important;
+            backdrop-filter: blur(10px);
+            z-index: 1050 !important;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+        
+        .mobile-nav-item {
+            min-width: 64px;
+            padding: 8px 0;
+            transition: all 0.2s ease;
+            color: #000;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .mobile-nav-item.active {
+            color: #2563EB !important;
+        }
+        
+        .mobile-nav-item small {
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        @media (min-width: 768px) {
+            .d-md-none.position-fixed {
+                display: none !important;
+            }
+            .navbar-collapse {
+                display: flex !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="/home">
+            <img src="{{ url_for('static', filename='image.png') }}"
+                 alt="OmeBox Logo"
+                 height="48"
+                 width="48"
+                 class="logo me-2">
+            <span>
+                <span style="color:#2563EB;">Ome</span><span style="color:#1A73E8;">Box</span>
+            </span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
+                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="/home">Home</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="/share">Sender</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold px-3" href="/receiver">Receiver</a></li>
+            </ul>
+            <div class="d-none d-lg-flex">
+                <a href="/chat" class="btn btn-outline-primary fw-semibold px-4">
+                    <span class="me-2">👥</span> Group Chat
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+    <div class="container">
+        
+        
+        <!-- Chat Section -->
+        <div class="chat-card">
+            <div class="chat-header">
+                <h3>
+                    <i class="bi bi-chat-dots-fill"></i>
+                    OmeBox Live Group Chat
+                </h3>
+                <span class="live-badge">
+                    <i class="bi bi-circle-fill"></i> LIVE · No Data Storage
+                </span>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div id="chat" class="mb-2"></div>
+                    <div id="typing" class="mb-2"></div>
+                    
+                    <div class="emoji-panel mb-2">
+                        <button onclick="emoji('😀')" class="emoji-btn">😀</button>
+                        <button onclick="emoji('👍')" class="emoji-btn">👍</button>
+                        <button onclick="emoji('❤️')" class="emoji-btn">❤️</button>
+                        <button onclick="emoji('😂')" class="emoji-btn">😂</button>
+                        <button onclick="emoji('😇')" class="emoji-btn">😇</button>
+                        <button onclick="emoji('😡')" class="emoji-btn">😡</button>
+                        <button onclick="emoji('😴')" class="emoji-btn">😴</button>
+                        <button onclick="emoji('😭')" class="emoji-btn">😭</button>
+                        <button onclick="emoji('😎')" class="emoji-btn">😎</button>
+                        <button onclick="emoji('👌')" class="emoji-btn">👌</button>
+                    </div>
+                    
+                    <div class="input-group mt-1">
+                        <input id="msg" class="form-control" placeholder="Type your message..." autocomplete="off">
+                        <button onclick="send()" class="btn btn-primary-custom">
+                            <i class="bi bi-send"></i> Send
+                        </button>
+                    </div>
+                    
+                    <div class="privacy-note">
+                        <i class="bi bi-info-circle"></i>
+                        Messages auto delete when you refresh · No data stored
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="online-section">
+                        <h5><i class="bi bi-people-fill"></i> Online · <span id="onlineCount">0</span></h5>
+                        <ul id="users" class="list-group users"></ul>
+                        <div class="mt-3 small text-secondary">
+                            <i class="bi bi-wifi"></i> realtime · no login
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="join-panel">
+                <input id="name" placeholder="Enter Your Name" class="form-control" >
+                <input id="room" placeholder="Enter Room code (e.g. 'ABCD' or 1234)" class="form-control">
+                <button onclick="join()" class="btn-join">
+                    <i class="bi bi-door-open"></i> Join Chat
+                </button>
+            </div>
+        </div>
+
+
+        <!-- Why OmeBox is Good Section -->
+        <div class="why-omebox">
+            <div class="why-title">
+                <i class="bi bi-star-fill"></i> Why OmeBox is Good
+            </div>
+            
+            <div class="badge-container">
+                <span class="info-badge"><i class="bi bi-shield-check"></i> No Login Required</span>
+                <span class="info-badge"><i class="bi bi-database-slash"></i> No Data Storage</span>
+                <span class="info-badge"><i class="bi bi-arrow-repeat"></i> Auto Delete on Refresh</span>
+                <span class="info-badge"><i class="bi bi-people-fill"></i> Group Chat</span>
+                <span class="info-badge"><i class="bi bi-pc-display"></i> Computer Lab Friendly</span>
+                <span class="info-badge"><i class="bi bi-briefcase-fill"></i> Office Staff Use</span>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-person-check"></i></div>
+                    <h3>No Login Required</h3>
+                    <p>OmeBox allows users to start chatting immediately. There is no signup or login, so anyone can join a chat room quickly and easily.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-database-slash"></i></div>
+                    <h3>No Data Storage</h3>
+                    <p>Privacy is one of the main features of OmeBox. The platform does not store chat data. When you refresh the page or close the website, all messages are automatically deleted.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-people"></i></div>
+                    <h3>Easy Group Chat</h3>
+                    <p>Users can create or join group chats and communicate with friends or classmates in real time. Perfect for quick discussions and casual conversations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-pc"></i></div>
+                    <h3>Useful in Computer Labs</h3>
+                    <p>In many schools or computer labs, students cannot use their phones. With OmeBox, friends can chat through their computers and enjoy group conversations during lab sessions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-briefcase"></i></div>
+                    <h3>Helpful for Office Staff</h3>
+                    <p>OmeBox can also be used in offices where coworkers want to share quick messages or files while working on computers. Simple communication without installing extra software.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-emoji-laughing"></i></div>
+                    <h3>Fun and Casual Communication</h3>
+                    <p>The main purpose of OmeBox is fun and friendly chatting. Whether you want to talk with friends, send messages during work breaks, or just enjoy a quick conversation, OmeBox makes chatting easy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="d-md-none position-fixed bottom-0 start-0 w-100 bg-white border-top mobile-bottom-nav">
+    <div class="d-flex justify-content-around align-items-center h-100">
+        <a href="/home" class="mobile-nav-item"><div style="font-size:22px;">🏠</div><small>Home</small></a>
+        <a href="/share" class="mobile-nav-item"><div style="font-size:22px;">📤</div><small>Share</small></a>
+        <a href="/receiver" class="mobile-nav-item"><div style="font-size:22px;">📥</div><small>Receive</small></a>
+        <a href="/chat" class="mobile-nav-item active"><div style="font-size:22px;">👥</div><small>Chat</small></a>
+    </div>
+</nav>
+
+<!-- FOOTER -->
+<footer class="text-center py-4 small d-none d-md-block mt-auto">
+    <div class="container">
+        <p class="mb-1"><strong>OmeBox</strong> — Free Group Chat · No Login · No Data Storage</p>
+        <p class="mb-0 text-muted">© 2024 OmeBox | Chat with friends at computer level without phone</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Chat JavaScript -->
+<script>
+    let ws;
+    let username = '';
+    let room = '';
+
+    const chatDiv = document.getElementById('chat');
+    const usersList = document.getElementById('users');
+    const typingDiv = document.getElementById('typing');
+    const onlineSpan = document.getElementById('onlineCount');
+    const msgInput = document.getElementById('msg');
+    const nameInput = document.getElementById('name');
+    const roomInput = document.getElementById('room');
+
+    // Auto-format room input to only allow digits (2-6 digits)
+    roomInput.addEventListener('input', function(e) {
+        // Remove any non-digit characters
+        this.value = this.value.replace(/[^0-9]/g, '');
+        
+        // Limit to 6 digits maximum
+        if (this.value.length > 6) {
+            this.value = this.value.slice(0, 6);
+        }
+    });
+
+    // Also handle paste events
+    roomInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        const digitsOnly = pastedText.replace(/[^0-9]/g, '').slice(0, 6);
+        this.value = digitsOnly;
+    });
+
+    function join() {
+        const newName = nameInput.value.trim();
+        const newRoom = roomInput.value.trim();
+        
+        // Validate name
+        if (!newName) {
+            alert('Please enter your name');
+            nameInput.focus();
+            return;
+        }
+        
+        // Validate room code - must be between 2 and 6 digits
+        if (!newRoom) {
+            alert('Please enter a room code');
+            roomInput.focus();
+            return;
+        }
+        
+        if (!/^\d{2,6}$/.test(newRoom)) {
+            alert('Room code must be 2 to 6 digits (e.g., 12, 123, 123456)');
+            roomInput.value = ''; // Clear invalid input
+            roomInput.focus();
+            return;
+        }
+
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.close();
+        }
+
+        username = newName;
+        room = newRoom;
+
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = `${protocol}//${window.location.host}/ws/${room}/${username}`;
+        
+        ws = new WebSocket(wsUrl);
+
+        ws.onopen = () => {
+            addSystemMessage(`✨ Welcome, ${username}! You're now in room "${room}".`);
+        };
+
+        ws.onmessage = (event) => {
+            let data;
+            try {
+                data = JSON.parse(event.data);
+            } catch (e) {
+                return;
+            }
+
+            if (data.type === 'message') {
+                addMessage(data.user, data.text);
+            } else if (data.type === 'join' || data.type === 'leave') {
+                updateUsers(data.users || []);
+                if (data.type === 'join' && data.user && data.user !== username) {
+                    addSystemMessage(`👋 ${data.user} joined room ${room}`);
+                } else if (data.type === 'leave' && data.user) {
+                    addSystemMessage(`🚪 ${data.user} left room ${room}`);
+                }
+            } else if (data.type === 'typing') {
+                if (data.user && data.user !== username) {
+                    typingDiv.innerText = `✎ ${data.user} is typing...`;
+                    clearTypingTimeout();
+                    typingTimeout = setTimeout(() => {
+                        typingDiv.innerText = '';
+                    }, 1200);
+                }
+            }
+        };
+
+        ws.onclose = () => {
+            addSystemMessage('⚠️ Disconnected · Refresh to rejoin');
+            updateUsers([]);
+        };
+
+        ws.onerror = (err) => {
+            console.error('WebSocket error:', err);
+            addSystemMessage('❌ Connection error. Please try again.');
+        };
+    }
+
+    // Function to create a random room code (2-6 digits)
+    function createRandomRoom() {
+        // Generate random length between 2 and 6
+        const length = Math.floor(Math.random() * 5) + 2; // 2,3,4,5,6
+        
+        // Generate random number with specified length
+        const min = Math.pow(10, length - 1);
+        const max = Math.pow(10, length) - 1;
+        const roomCode = Math.floor(Math.random() * (max - min + 1)) + min;
+        
+        roomInput.value = roomCode;
+        
+        // Optional: Auto-join after creating
+        // join();
+    }
+
+    let typingTimeout;
+    function clearTypingTimeout() {
+        if (typingTimeout) clearTimeout(typingTimeout);
+    }
+
+    function send() {
+        if (!ws || ws.readyState !== WebSocket.OPEN) {
+            alert('Please join a room first');
+            return;
+        }
+        const text = msgInput.value.trim();
+        if (!text) return;
+
+        ws.send(JSON.stringify({
+            type: 'message',
+            text: text
+        }));
+        msgInput.value = '';
+    }
+
+    function emoji(e) {
+        msgInput.value += e;
+        msgInput.focus();
+    }
+
+    function addMessage(user, text) {
+        const div = document.createElement('div');
+        div.className = 'msg';
+        if (user === username) div.classList.add('me');
+
+        div.innerHTML = `<b>${escapeHtml(user)}</b> <span>${escapeHtml(text)}</span> 
+            <span class="react-badge" onclick="reactToMessage(this, '👍')"><i class="bi bi-emoji-smile"></i> 👍</span>`;
+
+        chatDiv.appendChild(div);
+        chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+
+    function addSystemMessage(text) {
+        const div = document.createElement('div');
+        div.className = 'msg';
+        div.style.background = '#eaeef3';
+        div.style.fontStyle = 'italic';
+        div.style.color = '#3e5b71';
+        div.style.width = 'fit-content';
+        div.innerHTML = `<span>${escapeHtml(text)}</span>`;
+        chatDiv.appendChild(div);
+        chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+
+    function reactToMessage(element, emojiChar) {
+        const currentText = element.innerText.trim();
+        element.innerText = ` ${currentText}${emojiChar}`;
+    }
+
+    function updateUsers(users) {
+        if (!usersList) return;
+        usersList.innerHTML = '';
+        if (Array.isArray(users)) {
+            users.forEach(u => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerText = u;
+                usersList.appendChild(li);
+            });
+            if (onlineSpan) onlineSpan.innerText = users.length;
+        } else {
+            if (onlineSpan) onlineSpan.innerText = '0';
+        }
+    }
+
+    function escapeHtml(unsafe) {
+        return unsafe.replace(/[&<>"']/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            if (m === '"') return '&quot;';
+            return '&#039;';
+        });
+    }
+
+    // Typing indicator with debounce
+    msgInput.addEventListener('input', () => {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ type: 'typing' }));
+        }
+    });
+
+    // Send with Enter key
+    msgInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            send();
+        }
+    });
+
+    // Join with Enter key in input fields
+    nameInput.addEventListener('keypress', (e) => { 
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            join();
+        }
+    });
+    
+    roomInput.addEventListener('keypress', (e) => { 
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            join();
+        }
+    });
+
+    // Add placeholder hint for room code
+    roomInput.placeholder = "Enter room code (2-6 digits)";
+
+    // Optional: Add a "Random Room" button functionality
+    // Add this to your HTML: <button onclick="createRandomRoom()">Random Room</button>
+
+    window.onload = () => {
+        updateUsers([]);
+    };
+</script>
+</body>
+</html>

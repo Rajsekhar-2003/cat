@@ -1,0 +1,488 @@
+{% extends "base.html" %}
+
+{% block head %}
+<meta name="description"
+content="OmeBox lets you share text, code, and files instantly between PC, Mac, Android, and iPhone. No login required. Secure temporary links with auto expiry.">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="{{ request.base_url }}">
+
+<meta property="og:title" content="Free File Sharing Without Login | OmeBox">
+<meta property="og:description" content="Instantly share files and text between devices without login. Works on PC, Mac, Android, and iPhone.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.base_url }}">
+<meta property="og:image" content="{{ url_for('static', filename='og-share.jpg', _external=True) }}">
+
+<meta name="twitter:card" content="summary_large_image">
+
+    <!-- Bootstrap 5 (mobile first) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* =============================
+           OmeBox Fully Mobile Optimized
+           SEO / privacy / cross‑device
+           ============================= */
+        :root {
+            --primary: #0d6efd;
+            --primary-dark: #0b5ed7;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+            --bg-light: #f8faff;
+            --bg-white: #ffffff;
+            --border-light: #e6e9ef;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --accent-soft: #e3f0ff;
+        }
+
+        body {
+            color: var(--text-dark);
+            background-color: #fff;
+            line-height: 1.5;
+            font-size: 16px; /* base for mobile readability */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* section titles */
+        .section-title {
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            color: #1a3c6e;
+            border-left: 6px solid var(--primary);
+            padding-left: 0.9rem;
+            font-size: 1.75rem; /* responsive */
+            line-height: 1.2;
+        }
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.5rem;
+                border-left-width: 5px;
+                padding-left: 0.75rem;
+            }
+        }
+
+        /* ----- HERO with device gradient (fully touch friendly) ----- */
+        .hero {
+            background: radial-gradient(circle at 10% 30%, #ffffff, #e6f0ff);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 1.2rem;
+            margin: 1rem auto 2.5rem;
+            border: 1px solid #ceddff;
+            box-shadow: 0 8px 20px rgba(0,60,130,0.08);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 12vw, 3.2rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(145deg, #12376e, #0d6efd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero-sub {
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+            font-size: 1.1rem;
+            color: #1e3a5f;
+            background: rgba(255,255,255,0.7);
+            padding: 0.8rem 1.2rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid #ffffffaa;
+            font-weight: 500;
+        }
+
+        .trust-note {
+            margin: 1.2rem auto 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #0a4c8c;
+            background: #fff3d9;
+            display: inline-block;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            border: 1px solid #ffd966;
+            max-width: 90%;
+        }
+
+        /* keyword strips – scrollable on small if needed, but wrap nicely */
+        .device-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.8rem;
+            justify-content: center;
+            margin: 1.8rem 0 1.2rem;
+        }
+        .device-strip span {
+            background: #ffffffdd;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            border: 1px solid #a9c9ff;
+            backdrop-filter: blur(2px);
+            font-weight: 500;
+            white-space: nowrap;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        @media (max-width: 480px) {
+            .device-strip span {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.85rem;
+            }
+        }
+
+        /* ----- feature boxes (mobile grid) ----- */
+        .feature-box {
+            background: var(--bg-white);
+            border-radius: var(--radius-md);
+            padding: 1.8rem 1.2rem;
+            height: 100%;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            transition: transform 0.1s ease, box-shadow 0.15s ease;
+        }
+        .feature-box:active {
+            transform: scale(0.98); /* subtle tap feedback */
+        }
+        .feature-box h3 {
+            margin-top: 0.6rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1e3d7a;
+        }
+        .feature-box p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        .emoji {
+            font-size: 2.4rem;
+            display: inline-block;
+            filter: drop-shadow(0 4px 4px rgba(0,100,200,0.15));
+        }
+
+        /* about & privacy panels */
+        .about, .privacy {
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem;
+            margin-bottom: 3rem;
+            background: #ffffff;
+            border: 1px solid #deecff;
+            box-shadow: 0 12px 30px rgba(0,40,100,0.05);
+        }
+        .privacy {
+            background: #f6faff;
+            border-left: 8px solid #0d6efd;
+        }
+
+        .about p, .privacy p {
+            font-size: 1rem;
+            color: #1f2f4a;
+            margin-bottom: 1rem;
+        }
+        .privacy ul, .about ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1rem;
+        }
+        .privacy ul li, .about ul li {
+            padding-left: 1.8rem;
+            position: relative;
+            margin-bottom: 0.6rem;
+            font-size: 0.98rem;
+        }
+        .privacy ul li::before, .about ul li::before {
+            content: "✓";
+            color: #0d6efd;
+            font-weight: 800;
+            position: absolute;
+            left: 0;
+        }
+
+        /* keyword badges */
+        .keyword-badge {
+            background: #e5efff;
+            color: #0d6efd;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0.2rem 0.25rem;
+            border: 1px solid #b9d5ff;
+        }
+
+        /* CTA button – fat finger friendly */
+        .cta-button, .final-cta .btn {
+            padding: 0.9rem 1.8rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 60px;
+            box-shadow: 0 8px 20px #0d6efd60;
+            transition: 0.15s;
+            background: #0d6efd;
+            border: none;
+            color: white;
+            width: auto;
+            min-width: 260px;
+            max-width: 90%;
+            white-space: normal;
+            word-break: keep-all;
+            touch-action: manipulation;
+        }
+        .cta-button:hover, .final-cta .btn:hover {
+            background: #0b5ed7;
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px #0d6efd90;
+        }
+        .cta-button:active {
+            transform: scale(0.98);
+            background: #0a58ca;
+        }
+
+        /* final cta section */
+        .final-cta {
+            margin: 3rem 0 2rem;
+        }
+
+        /* Bootstrap container adjustments */
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 0.9rem;
+                padding-right: 0.9rem;
+            }
+        }
+
+        /* reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+        }
+
+        /* improve tap targets */
+        a, button, .btn, .feature-box, [role="button"] {
+            touch-action: manipulation;
+        }
+
+        /* extra spacing for mobile readability */
+        .main-content {
+            margin-top: 1rem;
+        }
+
+        /* make strip more compact but still scrollable? no need: wrap */
+        @media (max-width: 400px) {
+            .device-strip span {
+                white-space: nowrap;
+            }
+            .device-strip {
+                justify-content: flex-start;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+            }
+            .device-strip span {
+                display: inline-block;
+                flex: 0 0 auto;
+            }
+        }
+    </style>
+    {% endblock %}
+
+{% block content %}
+
+
+    <!-- wrap content for base simulation -->
+    <div class="main-content">
+        <!-- ========== HERO (keywords front) ========== -->
+        <section class="hero text-center" aria-labelledby="hero-title">
+            <div class="container">
+                <h2 id="hero-title" class="hero-title">OmeBox</h2>
+                <p class="hero-sub">
+                    📡 <strong>Without login · no signup · no tracking</strong><br class="d-sm-none">
+                    instant exchange between PC, Mac, iPhone, Android.
+                </p>
+
+                <!-- device strip: all keywords scannable -->
+                <div class="device-strip">
+                    <span>📱 PC to PC</span>
+                    <span>🖥️ Mobile to PC</span>
+                    <span>💻 Mac & iPhone</span>
+                    <span>📤 data transfer</span>
+                    <span>🔁 code Share</span>
+                    <span>📦 sharebox</span>
+                    <span>📝 context share</span>
+                    <span>📋 note share</span>
+                    <span>🧪 lab copy share</span>
+                    <span>📄 document share</span>
+                    <span>🚫 no email</span>
+                    <span>🚫 NoLogin</span>
+                    <span>📝 copypaste</span>
+                    <span>🔢 no number</span>
+                    <span>📁 anonymous file sharing</span>
+                    <span>🔁 QR code file sharing</span>
+                </div>
+
+                <!-- main CTA -->
+                <a href="#" class="btn btn-primary cta-button mt-2" aria-label="Start sharing without login" onclick="alert('Demo: redirect to share page'); return false;">
+                    ⚡ Start sharing – no signup
+                </a>
+                <p class="trust-note">🔒 zero tracking · temporary · open source Free</p>
+                <h1>OmeBox – Free Text & File Sharing Without Login . QR code file sharing</h1>
+            </div>
+        </section>
+
+        <!-- ========== FEATURES (mobile first grid) ========== -->
+        <section class="features container" aria-labelledby="features-title">
+            <h2 id="features-title" class="section-title">Cross‑device sharing · without login</h2>
+            <div class="row g-3 g-lg-4">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <article class="feature-box">
+                        <span class="emoji" aria-hidden="true">📡</span>
+                        <h3>PC ⇄ Mac · iPhone</h3>
+                        <p><strong>No signup</strong> data exchange: send from PC to Mac, Android to iPhone – instant.</p>
+                    </article>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <article class="feature-box">
+                        <span class="emoji" aria-hidden="true">📁</span>
+                        <h3>ShareDrop style</h3>
+                        <p>Direct context share like sharedrop, but also text, notes, lab copies.</p>
+                    </article>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <article class="feature-box">
+                        <span class="emoji" aria-hidden="true">🔐</span>
+                        <h3>No tracking · No email</h3>
+                        <p>We never ask email, no tracking pixels, no personal data.</p>
+                    </article>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <article class="feature-box">
+                        <span class="emoji" aria-hidden="true">📋</span>
+                        <h3>Note share · context share</h3>
+                        <p>Quick note passing from lab copy share to document share.</p>
+                    </article>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <article class="feature-box">
+                        <span class="emoji" aria-hidden="true">🔢</span>
+                        <h3>Access code only</h3>
+                        <p>One code retrieves your transfer – like sharebox but private.</p>
+                    </article>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <article class="feature-box">
+                        <span class="emoji" aria-hidden="true">📱</span>
+                        <h3>All devices tested</h3>
+                        <p>iPhone, iPad, Mac, Windows, Linux, Android – same experience.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== ABOUT (detailed keyword + cross device) ========== -->
+        <section class="about container" aria-labelledby="about-title">
+            <h2 id="about-title" class="section-title">About OmeBox: private, no‑login data transfer</h2>
+            <p>
+                <strong>OmeBox</strong> is a lightweight <strong>data exchange</strong> platform built with Flask.
+                Use it to transfer files, notes, or lab copy snippets <strong>without login, without signup</strong>.
+                Perfect for moving data between <strong>PC, Mac, iPhone, Android</strong> in seconds — just like sharedrop or sharebox.
+            </p>
+            <p class="mt-3 d-flex flex-wrap gap-1">
+                <span class="keyword-badge">without login</span>
+                <span class="keyword-badge">no signup</span>
+                <span class="keyword-badge">pc to pc</span>
+                <span class="keyword-badge">mobile to pc</span>
+                <span class="keyword-badge">mac iphone</span>
+                <span class="keyword-badge">data transfer</span>
+                <span class="keyword-badge">sharecode</span>
+                <span class="keyword-badge">sharebox</span>
+                <span class="keyword-badge">context share</span>
+                <span class="keyword-badge">note share</span>
+                <span class="keyword-badge">lab copy share</span>
+                <span class="keyword-badge">document share</span>
+                <span class="keyword-badge">no tracking</span>
+                <span class="keyword-badge">no email</span>
+            </p>
+
+            <h3 class="mt-4 h5">Why choose OmeBox for instant exchange?</h3>
+            <ul>
+                <li>⚡ <strong>No registration</strong> – zero friction, use immediately.</li>
+                <li>📱 Works on <strong>iPhone, Android, PC, Mac</strong> without app install.</li>
+                <li>🔁 <strong>Sharedrop-like simplicity</strong> – open, share, done.</li>
+                <li>📄 <strong>Document share & note share</strong> – text or binary.</li>
+                <li>🚫 <strong>No tracking, no email</strong> – we don’t collect identifiers.</li>
+                <li>🧪 Perfect for <strong>lab copy share, context share</strong> between own devices.</li>
+            </ul>
+        </section>
+
+        <!-- ========== PRIVACY & DISCLAIMER ========== -->
+        <section class="privacy container" aria-labelledby="privacy-title">
+            <h2 id="privacy-title" class="section-title">Privacy policy: no tracking · no email</h2>
+            <p>
+                ✅ <strong>No personal data collected.</strong> OmeBox does <em>not</em> require login, email, or phone. 
+                We do not use trackers, analytics, or cookies for marketing. 
+                Your shared content is temporary (auto‑expiry) and never sold or inspected.
+            </p>
+            <p>
+                ✅ <strong>No tracking numbers, no fingerprinting.</strong> Because there’s no account, 
+                we cannot link transfers to any identity. Perfect for sensitive context sharing.
+            </p>
+            <p>
+                ⚠️ <strong>Disclaimer:</strong> This is for educational purpose. Avoid sharing highly sensitive information. 
+                Data transfer is temporary but not encrypted end‑to‑end (use for non‑critical items). 
+                By using OmeBox you agree to the “as‑is” nature.
+            </p>
+            <div class="mt-3 d-flex flex-wrap gap-1">
+                <span class="keyword-badge">no tracking</span>
+                <span class="keyword-badge">no email data share</span>
+                <span class="keyword-badge">privacy first</span>
+                <span class="keyword-badge">no signup required</span>
+            </div>
+        </section>
+
+        <!-- ========== FINAL CTA ========== -->
+        <section class="final-cta text-center my-5 container">
+            <a href="#" class="btn btn-primary cta-button" aria-label="Start sharing now" onclick="alert('Demo: redirect to share page'); return false;">
+                📤 Start data exchange · no login
+            </a>
+            <p class="mt-3 small text-muted">PC, Mac, iPhone, Android – instant sharebox experience</p>
+        </section>
+    </div>
+
+    <!-- Bootstrap JS (optional but included for completeness) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Smooth scroll for anchor links (if needed) – touch friendly -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // only for internal hash links, prevent default and smooth scroll
+            document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- note: url_for('share') replaced with # for demo; actual flask needed -->
+{% endblock %}

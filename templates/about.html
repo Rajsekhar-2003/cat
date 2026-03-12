@@ -1,0 +1,649 @@
+{% extends "base.html" %}
+
+{% block head %}
+<!-- Primary Meta Tags -->
+<title>OmeBox | Fast, Secure File & Text Sharing Without Login</title>
+<meta name="title" content="OmeBox | Fast, Secure File & Text Sharing Without Login">
+<meta name="description" content="Share files and text instantly with no login or phone number. Send PDFs, images, notes, docs, and screenshots using secure, auto-expiring links and QR codes.">
+<meta name="author" content="OmeBox">
+<meta name="robots" content="index, follow">
+<meta name="language" content="English">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="keywords" content="file sharing, text sharing, no login, secure transfer, QR code sharing, cross platform, privacy first, Choose your file (PDF, image, notes, docs, screenshots)">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://omebox.com/about">
+<meta property="og:title" content="OmeBox – Private File & Text Sharing Without Login">
+<meta property="og:description" content="Instant, private file and text sharing with auto-expiring links. No account, no phone number. Trusted by 200,000+ users worldwide.">
+<meta property="og:image" content="https://omebox.com/static/images/omebox-og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="OmeBox">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@omebox">
+<meta name="twitter:title" content="OmeBox – Secure File Sharing Without Login">
+<meta name="twitter:description" content="Share files instantly between any devices. Free, private, and secure. No signup required.">
+<meta name="twitter:image" content="https://omebox.com/static/images/omebox-twitter-image.jpg">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://omebox.com/about">
+
+<!-- Preload Critical Assets -->
+<link rel="preload" as="image" href="https://omebox.com/static/images/omebox-og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Structured Data - Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "OmeBox",
+  "url": "https://omebox.com",
+  "logo": "https://omebox.com/static/images/omebox-logo.png",
+  "sameAs": [
+    "https://twitter.com/omebox",
+    "https://github.com/omebox",
+    "https://linkedin.com/company/omebox"
+  ],
+  "description": "Instant file and text sharing platform with auto-expiring links and QR code support",
+  "foundingDate": "2023",
+  "founders": [
+    {
+      "@type": "Person",
+      "name": "Rajsekhar Maity"
+    },
+    {
+      "@type": "Person",
+      "name": "Sarniva Das"
+    }
+  ]
+}
+</script>
+
+<!-- Structured Data - AboutPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About OmeBox",
+  "url": "https://omebox.com/about",
+  "mainEntity": {
+    "@type": "SoftwareApplication",
+    "name": "OmeBox",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web, Android, iOS, Windows, macOS, Linux",
+    "description": "Share files and text instantly without login. Auto-expiring links, QR codes, cross-platform support.",
+    "featureList": "No login required, Auto-expiring links, QR code generation, Cross-platform sharing, Privacy first",
+    "screenshot": "https://omebox.com/static/images/screenshot.jpg",
+    "softwareVersion": "2.0",
+    "releaseNotes": "https://omebox.com/changelog",
+    "downloadUrl": "https://omebox.com",
+    "installUrl": "https://omebox.com",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "url": "https://omebox.com"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "2341",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  }
+}
+</script>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need an account to use OmeBox?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. OmeBox works without login, signup, email, or phone number. It's completely anonymous and private."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long are files available on OmeBox?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Files are shared via auto-expiring links. You can choose expiration times from 1 hour to 7 days, ensuring your privacy and security."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does OmeBox work on Android and iPhone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. OmeBox works seamlessly across Android, iPhone, iPad, PC, Mac, Linux, and all modern browsers. Just open the link."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is OmeBox really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, OmeBox is completely free forever. No hidden costs, no premium tiers. We believe sharing should be accessible to everyone."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+/* Modern About Page Styles */
+.about-container {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px -12px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.05);
+  animation: fadeInUp 0.5s ease-out;
+  margin: 2rem 0;
+}
+
+.about-container h1 {
+  color: #0a1929;
+  font-weight: 800;
+  font-size: 2.8rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #0a1929 0%, #1e3a6f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-container h2 {
+  color: #0a1929;
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+  margin: 2.5rem 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid #3b82f6;
+  display: inline-block;
+}
+
+.about-container p,
+.about-container li {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #334155;
+}
+
+.trust-badge {
+  background: linear-gradient(135deg, #f0f9ff, #e6f0fa);
+  border-left: 5px solid #3b82f6;
+  padding: 1.25rem 2rem;
+  border-radius: 0 16px 16px 0;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(59,130,246,0.1);
+}
+
+.stat-highlight {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  display: inline-block;
+  box-shadow: 0 10px 20px -8px rgba(59,130,246,0.4);
+}
+
+.team-section {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 2.5rem 0;
+  border: 1px solid rgba(59,130,246,0.2);
+  box-shadow: 0 10px 25px -8px rgba(0,0,0,0.05);
+}
+
+.team-badge {
+  background: #0a1929;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 40px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.founder-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0a1929;
+  margin-bottom: 0.2rem;
+}
+
+.founder-role {
+  color: #3b82f6;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.university-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.university-tag {
+  background: white;
+  color: #0a1929;
+  padding: 0.4rem 1.2rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid #cbd5e1;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.university-tag:hover {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(59,130,246,0.2);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.feature-card {
+  background: #f8fafc;
+  padding: 1.5rem 1rem;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -8px rgba(0,0,0,0.1);
+  border-color: #3b82f6;
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.feature-title {
+  font-weight: 700;
+  color: #0a1929;
+  margin-bottom: 0.3rem;
+}
+
+.feature-desc {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin: 2.5rem 0;
+  background: linear-gradient(135deg, #f0f9ff, #e6f0fa);
+  padding: 2rem;
+  border-radius: 20px;
+}
+
+.stat-item {
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0a1929;
+  line-height: 1.2;
+}
+
+.stat-label {
+  color: #475569;
+  font-weight: 500;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cta-button {
+  background: #0a1929;
+  color: white;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 50px;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  margin-top: 1.5rem;
+  box-shadow: 0 20px 25px -8px rgba(0,0,0,0.3);
+}
+
+.cta-button:hover {
+  background: #3b82f6;
+  color: white;
+  border-color: white;
+  transform: scale(1.02);
+  text-decoration: none;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    padding: 1.5rem;
+  }
+  
+  .about-container h1 {
+    font-size: 2rem;
+  }
+  
+  .stats-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-10 about-container">
+
+    <!-- Hero Section -->
+    <div class="text-center mb-4">
+      <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-3">
+        🌟 Trusted by 200,000+ users worldwide
+      </span>
+
+      <h1>
+        Simple, Secure Text & File Sharing.<br>
+        <span style="color: #3b82f6;">Send Anywhere. Instantly.</span>
+      </h1>
+
+      <p class="lead text-secondary px-md-5">
+        OmeBox lets you share files and messages instantly with complete privacy.
+        No accounts. No tracking. No ads.  
+        Just fast, encrypted, and anonymous sharing—built for people who value security.
+      </p>
+    </div>
+
+    <!-- Trust Badge -->
+    <div class="trust-badge">
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        <span class="badge bg-primary text-white px-3 py-2 rounded-pill">⚡ 200,000+ users</span>
+        <span class="badge bg-success text-white px-3 py-2 rounded-pill">⭐ 4.8/5 rating</span>
+        <span class="badge bg-info text-white px-3 py-2 rounded-pill">🌍 150+ countries</span>
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">🚫 No login required</span>
+      </div>
+    </div>
+
+    <!-- Main Description -->
+    <div class="mb-5">
+      <p class="fs-5">
+        <strong class="text-primary">OmeBox</strong> is a fast, private, and secure way to share files and text instantly — no login, no phone number, no tracking.
+      </p>
+      <p>
+        Share text online with no signup by creating a simple link. Just paste your text or upload a file, save it, 
+        and share it instantly using a short URL you choose yourself (like <code class="bg-light px-2 py-1 rounded">omebox.com/6digitcode</code>). 
+        Whether you need to send a document, a quick note, or any information, OmeBox makes sharing frictionless and free across any device.
+      </p>
+    </div>
+
+    <!-- Feature Grid -->
+    <h2>Why Users Choose OmeBox</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Instant</div>
+        <div class="feature-desc">Secure links in seconds</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">Auto-Expiring</div>
+        <div class="feature-desc">Privacy by default</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <div class="feature-title">Cross-Platform</div>
+        <div class="feature-desc">Android • iPhone • PC • Mac</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚫</div>
+        <div class="feature-title">No Login</div>
+        <div class="feature-desc">No accounts, no tracking</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📲</div>
+        <div class="feature-title">QR Codes</div>
+        <div class="feature-desc">Instant mobile access</div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-number">200K+</div>
+        <div class="stat-label">Users</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100K+</div>
+        <div class="stat-label">Files Shared</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">150+</div>
+        <div class="stat-label">Countries</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">4.8★</div>
+        <div class="stat-label">Rating</div>
+      </div>
+    </div>
+
+    <!-- Team Section -->
+    <div class="team-section">
+      <div class="team-badge">👥 Meet the Team</div>
+      
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="d-flex gap-3">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <span class="fs-2">👨‍💻</span>
+            </div>
+            <div>
+              <div class="founder-name">Rajsekhar Maity</div>
+              <div class="founder-role">Lead Developer & Founder</div>
+              <p class="mt-2 small text-secondary">Creator of OmeBox, passionate about privacy-first tools.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="d-flex gap-3">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+              <span class="fs-2">👩‍💻</span>
+            </div>
+            <div>
+              <div class="founder-name">Sarniva Das</div>
+              <div class="founder-role">Platform Engineer & DevOps</div>
+              <p class="mt-2 small text-secondary">Ensures OmeBox runs smoothly for millions of shares.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3">
+        <p class="fw-bold mb-3">🌟 Community Promoters & Growth Support:</p>
+        <div class="university-list">
+          <span class="university-tag">Aparup Santra</span>
+          <span class="university-tag">Souvagya Bera</span>
+          <span class="university-tag">Sougata Uttashini</span>
+          <span class="university-tag">Rakes Das</span>
+          <span class="university-tag">Soumoditya Pal</span>
+          <span class="university-tag">Kamalakanta Shoo</span>
+          <span class="university-tag">Sagar Sarkar</span>
+          <span class="university-tag">Trisha Das</span>
+          <span class="university-tag">Prabitra Shaoo</span>
+          <span class="university-tag">Sanam Pandit</span>
+          <span class="university-tag">Krishnendu Sana</span>
+          <span class="university-tag">Dipayan Chowdhury</span>
+          <span class="university-tag">Sampad Patra</span>
+          <span class="university-tag">Adedayo</span>
+          <span class="university-tag">Debashish Barman</span>
+          <span class="university-tag">Kunal Sing</span>
+          <span class="university-tag">Paramita Das</span>
+          <span class="university-tag">Joydeeep Dasgupta</span>
+          <span class="university-tag">Arijit Patra</span>
+          <span class="university-tag">Dhiraj Patra</span>
+          <span class="university-tag">Debaprya Maji</span>
+          <span class="university-tag">Joseph En u</span>
+        </div>
+      </div>
+      
+      <div class="mt-4 pt-3" style="border-top: 1px solid #dee2e6;">
+        <p class="fw-bold mb-3"><span class="me-2">🎓</span> University Network Partners:</p>
+        <div class="university-list">
+          <span class="university-tag">Brainware University</span>
+          <span class="university-tag">Adamas University</span>
+          <span class="university-tag">Techno Main Salt Lake</span>
+          <span class="university-tag">MCKV</span>
+          <span class="university-tag">SRM</span>
+          <span class="university-tag">VIT</span>
+          <span class="university-tag">Chandigarh University</span>
+          <span class="university-tag">Jadavpur University</span>
+          <span class="university-tag">IISER</span>
+          <span class="university-tag">RK Mission Shilpamandira</span>
+          <span class="university-tag">KIIT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Common Use Cases -->
+    <h2>Common Use Cases</h2>
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <div class="d-flex gap-2 align-items-center p-3 bg-light rounded">
+          <span class="fs-3">📱</span>
+          <span>Send files from PC to mobile instantly</span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex gap-2 align-items-center p-3 bg-light rounded">
+          <span class="fs-3">📸</span>
+          <span>Share screenshots with teammates</span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex gap-2 align-items-center p-3 bg-light rounded">
+          <span class="fs-3">🔄</span>
+          <span>Transfer documents between Android & iPhone</span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex gap-2 align-items-center p-3 bg-light rounded">
+          <span class="fs-3">🔄</span>
+          <span>Group Project Sharing</span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex gap-2 align-items-center p-3 bg-light rounded">
+          <span class="fs-3">💻</span>
+          <span>Share code snippets instantly</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy Section -->
+    <h2>How We Protect Your Privacy</h2>
+    <div class="row mb-4">
+      <div class="col-md-4 mb-3">
+        <div class="p-3 border rounded h-100">
+          <div class="fs-1 mb-2">🗑️</div>
+          <h5>Auto-Expiring Links</h5>
+          <p class="small text-secondary">Files never stored permanently. Links expire automatically.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="p-3 border rounded h-100">
+          <div class="fs-1 mb-2">🔍</div>
+          <h5>No Tracking</h5>
+          <p class="small text-secondary">We collect no personal data — no emails, no phone numbers.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="p-3 border rounded h-100">
+          <div class="fs-1 mb-2">🔐</div>
+          <h5>Encrypted Transfer</h5>
+          <p class="small text-secondary">All transfers secured with modern encryption.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission Section -->
+    <h2>Our Mission</h2>
+    <p class="fs-5 fst-italic border-start border-primary border-4 ps-4 py-2 bg-light bg-opacity-50 rounded-end">
+      "Sharing should be instant, private, and universal. OmeBox removes barriers so anyone can share anything — securely."
+    </p>
+
+    <!-- CTA Section -->
+    <div class="text-center mt-5">
+      <a href="{{ url_for('index') }}" class="cta-button">
+        Get Started — It's Free →
+      </a>
+      <p class="mt-4 small opacity-75">Trusted by 200,000+ users worldwide • 4.8★ rating</p>
+    </div>
+
+    <!-- Hidden Keywords for SEO (visually hidden) -->
+    <div class="visually-hidden" aria-hidden="true">
+      share files online without login, android to iphone file sharing,
+      secure file transfer, temporary file sharing, private sharing tool,
+      rajsekhar maity, sarniva das, aparup santra, brainware university, adamas university,
+      no signup file share, private text sharing, anonymous file upload
+    </div>
+
+  </div>
+</div>
+{% endblock %}

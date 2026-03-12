@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>ShareBy – Text & File Share Online Without Login | OmeBox</title>
+
+<meta name="description"
+      content="Text share online and file share online instantly. Share files without login using access codes across PC, mobile, Android, and iPhone.">
+
+<meta name="keywords"
+      content="text share online, file share online, share files online without login, code share online, android to iphone file sharing, mobile to pc file sharing">
+
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Share Files Online Without Login – OmeBox">
+<meta property="og:description" content="Free text and file sharing across all devices. No registration needed.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+:root {
+    --primary: #4361ee;
+    --primary-dark: #3a56d4;
+    --text-dark: #2b2d42;
+    --text-light: #6c757d;
+    --bg-light: #f8f9fa;
+    --white: #ffffff;
+    --shadow-md: 0 10px 25px rgba(67, 97, 238, 0.15);
+    --shadow-hover: 0 20px 35px rgba(67, 97, 238, 0.2);
+    --radius: 20px;
+}
+
+/* ===== Receiver Section ===== */
+.receiver-section {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin-top: -24px; /* sticky header offset */
+    position: relative;
+    overflow: hidden;
+}
+
+.receiver-section::before,
+.receiver-section::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.receiver-section::before {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -50px;
+}
+
+.receiver-section::after {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -50px;
+}
+
+/* ===== Card ===== */
+.receiver-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 3rem 2.5rem;
+    box-shadow: var(--shadow-md);
+    max-width: 600px;
+    width: 100%;
+    z-index: 2;
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.receiver-card h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-align: center;
+    -webkit-text-fill-color: blue;
+}
+
+.receiver-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+/* ===== Form ===== */
+.receiver-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.receiver-input {
+    width: 100%;
+    height: 60px;
+    font-size: 1.3rem;
+    border-radius: 15px;
+    border: 2px solid #e9ecef;
+    text-align: center;
+    letter-spacing: 4px;
+    background: var(--bg-light);
+}
+
+.receiver-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+}
+
+.btn-fetch {
+    height: 60px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-fetch:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ===== How it works ===== */
+.how-it-works {
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    color: #764ba2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin: auto;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="receiver-section">
+    <div class="receiver-card">
+        <h1>📦 Receive Files & Text</h1>
+        <p class="receiver-subtitle">Enter your 6-digit code to access shared content</p>
+
+        <form method="get" action="{{ url_for('receiver_home') }}" class="receiver-form">
+            <input type="text"
+                   name="code"
+                   class="receiver-input"
+                   placeholder="Enter 6-digit code"
+                   maxlength="6"
+                   pattern="[0-9]{6}"
+                   inputmode="numeric"
+                   required>
+
+            <button type="submit" class="btn-fetch">🔍 Fetch Content</button>
+        </form>
+
+        <p class="receiver-subtitle" style="margin-top:1.5rem;">
+            ⚡ No login required • Works on all devices
+        </p>
+    </div>
+</section>
+
+<section class="how-it-works">
+    <h2 style="text-align:center;">How to Receive Files</h2>
+    <div class="steps-container container">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Get Code</h3>
+            <p>Ask sender for the access code</p>
+        </div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>Enter Code</h3>
+            <p>Type the code above</p>
+        </div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Access Content</h3>
+            <p>Download instantly</p>
+        </div>
+    </div>
+</section>
+
+<!-- SEO Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "OmeBox Receiver",
+  "applicationCategory": "File Sharing",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0" }
+}
+</script>
+
+{% endblock %}

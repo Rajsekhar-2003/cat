@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+
+    <!-- SEO -->
+    <title>OmeBox – Free Text & File Sharing Without Login | Secure Online Transfer</title>
+    <meta name="description" content="OmeBox lets you instantly share text, code, and files with expiring links and QR codes. No login required. Fast, secure, Text share without Login.File Share without login.">
+    <meta name="keywords" content="text sender online, free text sharing, file sending website, free file sharing online, file share without login,Text share without login, no signup no email required, anonymous file sharing, secure file transfer, fast file sharing, online file transfer, PC to PC file transfer, mobile to mobile file transfer, JPG PDF PNG ZIP file transfer, QR code file sharing, easy file transfer, private file sharing, alternative to WeTransfer, alternative to Dropbox, alternative to Google Drive, OmeBox file sharing, best text and file sharing website">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://omebox.com/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="OmeBox – Instant Text, Code & File Sharing">
+    <meta property="og:description" content="Share text, code, and files instantly with no signup. Expiring links and QR codes included.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://omebox.com">
+    <meta property="og:image" content="https://omebox.com/static/og-preview.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="OmeBox – Instant text and file sharing">
+    <meta property="og:site_name" content="OmeBox">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OmeBox – Instant Text & File Sharing">
+    <meta name="twitter:description" content="Fast, secure text and file sharing with no login.">
+    <meta name="twitter:image" content="https://omebox.com/static/og-preview.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='image.png') }}">
+
+    <!-- Performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Page-specific head -->
+    {% block head %}{% endblock %}
+
+    <!-- Enhanced Responsive Styles -->
+    <style>
+        /* Base responsive optimizations */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body { 
+            background: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        /* Mobile styles (up to 767px) */
+        @media (max-width: 767px) {
+            body { 
+                padding-bottom: 70px; /* Space for bottom nav */
+            }
+            
+            .navbar { 
+                position: sticky; 
+                top: 0; 
+                z-index: 1100;
+                padding: 8px 0;
+                min-height: 60px;
+            }
+            
+            /* Fix Bootstrap collapse on mobile */
+            .navbar-collapse {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                z-index: 1090;
+                max-height: calc(100vh - 60px);
+                overflow-y: auto;
+                display: none !important;
+            }
+            
+            .navbar-collapse.show {
+                display: block !important;
+            }
+            
+            /* Improved touch targets */
+            .nav-link { 
+                padding: 16px 0; 
+                font-size: 18px;
+                min-height: 56px;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .nav-item:last-child .nav-link {
+                border-bottom: none;
+            }
+            
+            main.container { 
+                padding: 15px;
+                max-width: 100%;
+            }
+            
+            footer { 
+                display: none; 
+            }
+            
+            /* Typography */
+            h1 { font-size: 1.8rem; line-height: 1.3; }
+            h2 { font-size: 1.5rem; }
+            p { font-size: 1rem; line-height: 1.6; }
+            
+            /* Button improvements */
+            .btn { 
+                padding: 14px 24px;
+                min-height: 52px;
+                font-size: 16px;
+                border-radius: 8px;
+            }
+            
+            /* Bottom navigation */
+            .mobile-bottom-nav {
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                height: 70px;
+                background: rgba(255,255,255,0.98) !important;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                z-index: 1050 !important;
+                padding-bottom: env(safe-area-inset-bottom, 0);
+            }
+            
+            .mobile-nav-item {
+                min-width: 64px;
+                padding: 8px 0;
+                transition: all 0.2s ease;
+            }
+            
+            .mobile-nav-item:active {
+                background-color: rgba(37, 99, 235, 0.1);
+                transform: scale(0.96);
+            }
+            
+            .mobile-nav-item.active {
+                color: #2563EB !important;
+            }
+            
+            .mobile-nav-item.active div {
+                color: #2563EB;
+            }
+            
+            .mobile-nav-item small {
+                font-size: 12px;
+                margin-top: 4px;
+            }
+            
+            /* Form elements */
+            input, select, textarea {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                padding: 14px !important;
+            }
+        }
+
+        /* Tablet styles (768px to 1024px) */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .container {
+                max-width: 95%;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+            .navbar-brand img {
+                height: 44px;
+            }
+            
+            .navbar-brand span {
+                font-size: 1.6rem;
+            }
+            
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .btn {
+                padding: 14px 28px;
+                font-size: 16px;
+            }
+            
+            /* Hide mobile bottom nav on tablet/desktop */
+            .d-md-none.position-fixed {
+                display: none !important;
+            }
+            
+            /* Show desktop menu */
+            .navbar-collapse {
+                display: flex !important;
+            }
+            
+            /* Tablet-specific card layouts */
+            .card-deck {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            /* Improve touch targets for tablet */
+            .nav-link {
+                padding: 12px 16px;
+                font-size: 16px;
+            }
+        }
+
+        /* Desktop styles (1025px and above) */
+        @media (min-width: 1025px) {
+            .container {
+                max-width: 1200px;
+            }
+            
+            .navbar-brand span {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 12px 28px;
+            }
+            
+            /* Hover effects only on desktop */
+            .btn:hover {
+                transform: translateY(-2px);
+                transition: transform 0.2s;
+            }
+        }
+
+        /* Small phones (up to 374px) */
+        @media (max-width: 374px) {
+            .mobile-nav-item small {
+                font-size: 10px;
+            }
+            
+            .mobile-nav-item div[style*="font-size:22px"] {
+                font-size: 20px !important;
+            }
+            
+            .navbar-brand span {
+                font-size: 1.3rem;
+            }
+            
+            .navbar-brand img {
+                height: 36px;
+                width: 36px;
+            }
+            
+            h1 { font-size: 1.6rem; }
+        }
+
+        /* Landscape mode on mobile */
+        @media (max-width: 767px) and (orientation: landscape) {
+            .mobile-bottom-nav {
+                height: 60px;
+            }
+            
+            .mobile-nav-item {
+                padding: 4px 0;
+            }
+            
+            .mobile-nav-item div[style*="font-size:22px"] {
+                font-size: 20px !important;
+            }
+            
+            .mobile-nav-item small {
+                font-size: 10px;
+            }
+            
+            .navbar-collapse {
+                max-height: calc(100vh - 60px);
+            }
+        }
+
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .btn-outline-primary {
+                border-width: 2px;
+            }
+            
+            * {
+                border-color: currentColor !important;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner-mini {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(0,0,0,0.1);
+            border-top-color: #2563EB;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Loading button state */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .btn-loading:after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: calc(50% - 10px);
+            left: calc(50% - 10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        /* Grid improvements for all devices */
+        .responsive-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        /* Safe area insets for modern mobile devices */
+        @supports (padding: max(0px)) {
+            .mobile-bottom-nav {
+                padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
+                height: calc(70px + env(safe-area-inset-bottom, 0px));
+            }
+            
+            body {
+                padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+            }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "OmeBox",
+      "url": "https://omebox.com",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "description": "Instant text, code, and secure file sharing with no login. Create expiring links and QR codes.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" aria-label="Main navigation">
+    <div class="container">
+
+        <!-- Brand -->
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ url_for('index') }}" aria-label="OmeBox Home">
+            <img src="{{ url_for('static', filename='image.png') }}"
+                 alt="OmeBox Logo"
+                 height="48"
+                 width="48"
+                 class="logo me-2"
+                 loading="eager"
+                 onerror="this.style.display='none'">
+
+            <span style="font-weight:800; font-family:Inter, sans-serif; letter-spacing:0.5px;">
+                <span style="color:#2563EB;">Ome</span><span style="color:#1A73E8;">Box</span>
+            </span>
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Desktop Menu -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold px-3" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold px-3" href="{{ url_for('about') }}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold px-3" href="{{ url_for('share') }}">Sender</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold px-3" href="{{ url_for('receiver_home') }}">Receiver</a>
+                </li>
+                <!-- Mobile AI button (visible only in collapsed menu) -->
+                <li class="nav-item d-lg-none mt-3">
+                    <a href="{{ url_for('chat_home') }}" class="btn btn-primary w-100">
+                        <span class="me-2">👥</span> Group Chat
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Desktop AI Button -->
+            <div class="d-none d-lg-flex">
+                <a href="{{ url_for('chat_home') }}"
+                   class="btn btn-outline-primary fw-semibold px-4"
+                   style="min-width: 140px; border-width: 2px;">
+                    <span class="me-2">👥</span> Group Chat
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<main class="container py-4 flex-grow-1" id="main-content">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+<nav class="d-md-none position-fixed bottom-0 start-0 w-100 bg-white border-top mobile-bottom-nav" 
+     aria-label="Mobile navigation">
+    <div class="d-flex justify-content-around align-items-center h-100">
+        <a href="{{ url_for('index') }}" class="text-center text-decoration-none text-dark mobile-nav-item" data-nav="home">
+            <div style="font-size:22px; line-height:1;" aria-hidden="true">🏠</div>
+            <small class="fw-medium d-block">Home</small>
+        </a>
+
+        <a href="{{ url_for('share') }}" class="text-center text-decoration-none text-dark mobile-nav-item" data-nav="share">
+            <div style="font-size:22px; line-height:1;" aria-hidden="true">📤</div>
+            <small class="fw-medium d-block">Share</small>
+        </a>
+
+        <a href="{{ url_for('receiver_home') }}" class="text-center text-decoration-none text-dark mobile-nav-item" data-nav="receive">
+            <div style="font-size:22px; line-height:1;" aria-hidden="true">📥</div>
+            <small class="fw-medium d-block">Receive</small>
+        </a>
+
+        <a href="{{ url_for('chat_home') }}" class="text-center text-decoration-none text-dark mobile-nav-item" data-nav="chat">
+            <div style="font-size:22px; line-height:1;" aria-hidden="true">👥</div>
+            <small class="fw-medium d-block">Group Chat</small>
+        </a>
+    </div>
+</nav>
+
+<!-- DESKTOP FOOTER -->
+<footer class="text-center py-4 small d-none d-md-block mt-auto" aria-label="Footer">
+    <div class="container">
+        <p class="mb-1"><strong>OmeBox</strong> — Fast & Secure File Sharing</p>
+        <p class="mb-0 text-muted">© 2024 OmeBox | Online Message Exchange Box</p>
+        {% if visitors %}
+        <span class="visually-hidden">{{ visitors }}</span>
+        {% endif %}
+    </div>
+</footer>
+
+<!-- Bootstrap JS with proper loading -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Enhanced JavaScript -->
+<script>
+    (function() {
+        'use strict';
+        
+        // Configuration
+        const CONFIG = {
+            mobileBreakpoint: 767,
+            tabletBreakpoint: 1024
+        };
+        
+        // Helper function to get current path
+        function getCurrentPath() {
+            return window.location.pathname;
+        }
+        
+        // Set active states for navigation
+        function setActiveNavStates() {
+            const currentPath = getCurrentPath();
+            
+            // Desktop nav
+            document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Mobile bottom nav
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active', 'text-primary');
+                const href = item.getAttribute('href');
+                
+                // Handle root path
+                if (currentPath === '/' && href === "{{ url_for('index') }}") {
+                    item.classList.add('active', 'text-primary');
+                }
+                // Handle other paths
+                else if (href === currentPath) {
+                    item.classList.add('active', 'text-primary');
+                }
+                // Handle partial matches for nested routes
+                else if (currentPath.includes('share') && href.includes('share')) {
+                    item.classList.add('active', 'text-primary');
+                }
+                else if (currentPath.includes('receiver') && href.includes('receiver')) {
+                    item.classList.add('active', 'text-primary');
+                }
+                else if (currentPath.includes('chat') && href.includes('chat')) {
+                    item.classList.add('active', 'text-primary');
+                }
+            });
+        }
+        
+        // Touch feedback for mobile
+        function initTouchFeedback() {
+            if (window.innerWidth <= CONFIG.mobileBreakpoint) {
+                const touchElements = document.querySelectorAll('.mobile-nav-item, .btn, .card, .feature-box');
+                
+                touchElements.forEach(el => {
+                    el.addEventListener('touchstart', function(e) {
+                        this.style.transition = 'opacity 0.1s';
+                        this.style.opacity = '0.7';
+                    }, { passive: true });
+                    
+                    el.addEventListener('touchend', function(e) {
+                        this.style.opacity = '1';
+                        setTimeout(() => {
+                            this.style.transition = '';
+                        }, 100);
+                    });
+                    
+                    el.addEventListener('touchcancel', function(e) {
+                        this.style.opacity = '1';
+                    });
+                });
+            }
+        }
+        
+        // Handle Bootstrap modal scroll locking
+        function initModalHandlers() {
+            document.addEventListener('shown.bs.modal', function() {
+                document.body.style.overflow = 'hidden';
+                document.body.style.paddingRight = '0';
+            });
+            
+            document.addEventListener('hidden.bs.modal', function() {
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            });
+        }
+        
+        // Form loading states
+        function initFormLoadingStates() {
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    if (submitBtn && !submitBtn.disabled) {
+                        const originalText = submitBtn.innerHTML;
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('btn-loading');
+                        submitBtn.dataset.originalText = originalText;
+                    }
+                });
+            });
+        }
+        
+        // Handle navbar collapse close after click on mobile
+        function initMobileNavbar() {
+            const navbarCollapse = document.getElementById('navbarContent');
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            
+            if (navbarCollapse) {
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= CONFIG.mobileBreakpoint) {
+                            const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                            if (bsCollapse) {
+                                bsCollapse.hide();
+                            }
+                        }
+                    });
+                });
+            }
+        }
+        
+        // Handle orientation change
+        function initOrientationHandler() {
+            window.addEventListener('orientationchange', function() {
+                setTimeout(() => {
+                    // Adjust any layout issues after rotation
+                    document.body.style.height = window.innerHeight + 'px';
+                }, 100);
+            });
+        }
+        
+        // Debounced resize handler
+        function initResizeHandler() {
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    const width = window.innerWidth;
+                    
+                    // Reinitialize touch feedback for mobile
+                    if (width <= CONFIG.mobileBreakpoint) {
+                        initTouchFeedback();
+                    }
+                    
+                    // Update body class for responsive adjustments
+                    document.body.classList.remove('is-mobile', 'is-tablet', 'is-desktop');
+                    if (width <= CONFIG.mobileBreakpoint) {
+                        document.body.classList.add('is-mobile');
+                    } else if (width <= CONFIG.tabletBreakpoint) {
+                        document.body.classList.add('is-tablet');
+                    } else {
+                        document.body.classList.add('is-desktop');
+                    }
+                }, 250);
+            });
+        }
+        
+        // Initialize everything when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            setActiveNavStates();
+            initTouchFeedback();
+            initModalHandlers();
+            initFormLoadingStates();
+            initMobileNavbar();
+            initOrientationHandler();
+            initResizeHandler();
+            
+            // Set initial device class
+            const width = window.innerWidth;
+            if (width <= CONFIG.mobileBreakpoint) {
+                document.body.classList.add('is-mobile');
+            } else if (width <= CONFIG.tabletBreakpoint) {
+                document.body.classList.add('is-tablet');
+            } else {
+                document.body.classList.add('is-desktop');
+            }
+        });
+        
+    })();
+</script>
+
+<!-- Page-specific scripts -->
+{% block scripts %}{% endblock %}
+
+</body>
+</html>
